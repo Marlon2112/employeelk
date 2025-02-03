@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Оформление больничного</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <h2>Заявка на больничный</h2>
@@ -10,19 +11,19 @@
 <div th:if="${message}" class="message success" th:text="${message}"></div>
 <form th:action="@{/sickleave}" method="post" enctype="multipart/form-data">
   <label for="employeeId">ID сотрудника:</label>
-  <input type="number" name="employeeId" required/><br/>
+  <input type="number" name="employeeId" required/>
 
   <label for="startDate">Дата начала:</label>
-  <input type="date" name="startDate" required/><br/>
+  <input type="date" name="startDate" required/>
 
   <label for="endDate">Дата окончания:</label>
-  <input type="date" name="endDate" required/><br/>
+  <input type="date" name="endDate" required/>
 
   <label for="file">Прикрепить файл:</label>
-  <input type="file" name="file"/><br/>
+  <input type="file" name="file"/>
 
   <label for="documentNumber">ИЛИ ввести номер больничного:</label>
-  <input type="text" name="documentNumber"/><br/>
+  <input type="text" name="documentNumber"/>
 
   <button type="submit">Подать заявку</button>
 </form>
