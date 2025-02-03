@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Оформление отпуска</title>
+</head>
+<body>
+<h2>Заявка на отпуск</h2>
+<div th:if="${error}" class="message error" th:text="${error}"></div>
+<div th:if="${message}" class="message success" th:text="${message}"></div>
+<form th:action="@{/vacation}" method="post">
+  <label for="employeeId">ID сотрудника:</label>
+  <input type="number" name="employeeId" required/><br/>
+
+  <label for="startDate">Дата начала:</label>
+  <input type="date" name="startDate" required/><br/>
+
+  <label for="endDate">Дата окончания:</label>
+  <input type="date" name="endDate" required/><br/>
+
+  <button type="submit">Подать заявку</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Создание таблицы сотрудников -->
+    <changeSet id="1" author="author">
+        <createTable tableName="employees">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Таблица зарплаты -->
+    <changeSet id="2" author="author">
+        <createTable tableName="salaries">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="employee_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="NUMERIC(10,2)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="salaries"
+                                 baseColumnNames="employee_id"
+                                 referencedTableName="employees"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_salary_employee"/>
+    </changeSet>
+
+    <!-- Таблица рабочего времени -->
+    <changeSet id="3" author="author">
+        <createTable tableName="working_times">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="employee_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="extra_hours" type="INTEGER"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="working_times"
+                                 baseColumnNames="employee_id"
+                                 referencedTableName="employees"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_workingtime_employee"/>
+    </changeSet>
+
+    <!-- Таблица отпусков -->
+    <changeSet id="4" author="author">
+        <createTable tableName="vacations">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="employee_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="DATE"/>
+            <column name="end_date" type="DATE"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="vacations"
+                                 baseColumnNames="employee_id"
+                                 referencedTableName="employees"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_vacation_employee"/>
+    </changeSet>
+
+    <!-- Таблица больничного -->
+    <changeSet id="5" author="author">
+        <createTable tableName="sick_leaves">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="employee_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="DATE"/>
+            <column name="end_date" type="DATE"/>
+            <column name="document_info" type="VARCHAR(255)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="sick_leaves"
+                                 baseColumnNames="employee_id"
+                                 referencedTableName="employees"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_sickleave_employee"/>
+    </changeSet>
+</databaseChangeLog>

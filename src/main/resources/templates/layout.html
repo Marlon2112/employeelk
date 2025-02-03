@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Личный кабинет сотрудника</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header>
+  <h1>Employee Office</h1>
+</header>
+<nav>
+  <!-- Ссылки с идентификаторами для переключения блоков -->
+  <a href="#personalInfoSection">Личный кабинет</a>
+  <a href="#vacationSection">Отпуск</a>
+  <a href="#sickLeaveSection">Больничный</a>
+  <a href="#adminSection">Админ панель</a>
+</nav>
+<main>
+  <!-- Раздел для личного кабинета -->
+  <section id="personalInfoSection">
+    <div th:replace="personalinfo :: content"></div>
+  </section>
+
+  <!-- Раздел для оформления отпуска -->
+  <section id="vacationSection" style="display: none;">
+    <div th:replace="vacation :: content"></div>
+  </section>
+
+  <!-- Раздел для оформления больничного -->
+  <section id="sickLeaveSection" style="display: none;">
+    <div th:replace="sickleave :: content"></div>
+  </section>
+
+  <!-- Раздел для админ панели -->
+  <section id="adminSection" style="display: none;">
+    <div th:replace="admin :: content"></div>
+  </section>
+</main>
+<footer>
+  <p>&copy; 2025 Employee Office</p>
+</footer>
+<script th:src="@{/js/navigation.js}"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Оформление больничного</title>
+</head>
+<body>
+<h2>Заявка на больничный</h2>
+<div th:if="${error}" class="message error" th:text="${error}"></div>
+<div th:if="${message}" class="message success" th:text="${message}"></div>
+<form th:action="@{/sickleave}" method="post" enctype="multipart/form-data">
+  <label for="employeeId">ID сотрудника:</label>
+  <input type="number" name="employeeId" required/><br/>
+
+  <label for="startDate">Дата начала:</label>
+  <input type="date" name="startDate" required/><br/>
+
+  <label for="endDate">Дата окончания:</label>
+  <input type="date" name="endDate" required/><br/>
+
+  <label for="file">Прикрепить файл:</label>
+  <input type="file" name="file"/><br/>
+
+  <label for="documentNumber">ИЛИ ввести номер больничного:</label>
+  <input type="text" name="documentNumber"/><br/>
+
+  <button type="submit">Подать заявку</button>
+</form>
+</body>
+</html>
