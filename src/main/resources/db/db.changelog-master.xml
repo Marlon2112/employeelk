@@ -92,4 +92,18 @@
                                  referencedColumnNames="id"
                                  constraintName="fk_sickleave_employee"/>
     </changeSet>
+    <!-- Регистрация -->
+    <changeSet id="6" author="your_name">
+        <createTable tableName="logins">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
