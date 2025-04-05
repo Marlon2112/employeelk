@@ -1,5 +1,6 @@
 import React from 'react';
 import { MenuItem } from './Components/MenuItem';
+import { Header } from '../../Common/Header';
 import { MENU_ITEMS } from './Config';
 import styled from 'styled-components';
 import Divider from '@mui/material/Divider';
@@ -23,17 +24,10 @@ const MenuHeader = styled.div`
 	margin-top: 2rem;
 `;
 
-const Logo = styled.div`
-	padding: 1rem;
-	padding-left: 2.4rem;
-	color: #5a67ba;
-	font-weight: 600;
-`;
-
 export function SideBar(): React.ReactElement {
 	return (
 		<Wrapper>
-			<Logo>Employee Office</Logo>
+			<Header>Employee Office</Header>
 			<Divider />
 			<MenuHeader>МЕНЮ</MenuHeader>
 			<List>
