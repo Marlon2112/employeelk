@@ -10,6 +10,7 @@ interface IProps {
 
 const Wrapper = styled.li`
 	padding: 0.9rem 1.5rem;
+	margin: 3px;
 	cursor: pointer;
 	border-radius: 10px;
 	display: flex;

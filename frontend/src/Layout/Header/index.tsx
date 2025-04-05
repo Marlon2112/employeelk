@@ -4,7 +4,7 @@ import Divider from '@mui/material/Divider';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 
 const HeaderWrapper = styled.div`
-	padding: 0.84rem;
+	padding: 0.92rem;
 	display: flex;
 	justify-content: end;
 	svg {
