@@ -6,22 +6,41 @@ import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { useState } from 'react';
-import { l } from 'react-router/dist/development/fog-of-war-CCAcUMgB';
+import styled from 'styled-components';
+import { IRegister } from '../../Pages/Register/Slice/Models';
 
 interface IProps {
 	label: string;
+	setFormData?: React.Dispatch<React.SetStateAction<IRegister>>;
+	value: 'password' | 'checkPassword';
+	errorText?: string;
 }
 
-export function PasswordTextField({ label }: IProps) {
+const StyledHelperText = styled.p(() => ({
+	color: '#d32f2f',
+	textAlign: 'left',
+	marginTop: '5px',
+	letterSpacing: '0.03333em',
+	fontSize: '0.75rem',
+}));
+
+export function PasswordTextField({ label, setFormData, value, errorText }: IProps) {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+	const handleChangeValuePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setFormData?.((prev) => ({
+			...prev,
+			[value]: event.target.value,
+		}));
+	};
+
 	return (
 		<FormControl variant='outlined' fullWidth margin='normal'>
-			<InputLabel htmlFor='outlined-adornment-password'>{label}</InputLabel>
+			<InputLabel htmlFor={`outlined-adornment-password-${value}`}>{label}</InputLabel>
 			<OutlinedInput
-				id='outlined-adornment-password'
+				id={`outlined-adornment-password-${value}`}
 				type={showPassword ? 'text' : 'password'}
 				endAdornment={
 					<InputAdornment position='end'>
@@ -31,7 +50,10 @@ export function PasswordTextField({ label }: IProps) {
 					</InputAdornment>
 				}
 				label={label}
+				onChange={handleChangeValuePassword}
+				error={Boolean(errorText)}
 			/>
+			{value === 'checkPassword' && <StyledHelperText>{errorText}</StyledHelperText>}
 		</FormControl>
 	);
 }
