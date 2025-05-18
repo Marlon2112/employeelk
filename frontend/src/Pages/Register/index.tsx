@@ -1,10 +1,14 @@
-import Button from '@mui/material/Button';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { PasswordTextField } from '../../Common/PasswordTextField';
+import { useAppDispatch } from '../../store';
+import { LoginTextField } from './Components/LoginTextField';
+import { SubmitButton } from './Components/SubmitButton';
+import { TabPanel } from './Components/TabPanel';
+import { login } from './Slice/Actions';
+import { IRegister } from './Slice/Models';
 
 const Item = styled.div`
 	text-align: center;
@@ -20,37 +24,21 @@ const Item = styled.div`
 	justify-content: space-between;
 `;
 
-const StyledButton = styled(Button)(() => ({
-	marginTop: '2rem',
-}));
-
-interface TabPanelProps {
-	children?: React.ReactNode;
-	index: number;
-	value: number;
-}
-
-function CustomTabPanel(props: TabPanelProps) {
-	const { children, value, index, ...other } = props;
-
-	return (
-		<div role='tabpanel' hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
-			{value === index && children}
-		</div>
-	);
-}
-
 export function Register() {
-	const [loading, setLoading] = useState(false);
-	function handleClick() {
-		setLoading(true);
-	}
+	const dispatch = useAppDispatch();
+	const [formData, setFormData] = useState<IRegister>({
+		login: '',
+		password: '',
+		checkPassword: '',
+	});
+	const [errorText, setErrorText] = useState('');
 
-	const [value, setValue] = useState(0);
+	const [tabValue, setTabValue] = useState(0);
 
-	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-		setValue(newValue);
+	const handleChangeTabs = (_: React.SyntheticEvent, newValue: number) => {
+		setTabValue(newValue);
 	};
+
 	function a11yProps(index: number) {
 		return {
 			id: `simple-tab-${index}`,
@@ -58,27 +46,34 @@ export function Register() {
 		};
 	}
 
+	const handleClick = () => {
+		if (formData.password !== formData.checkPassword && tabValue === 1) {
+			setErrorText('Пароли не совпадают');
+		} else {
+			setErrorText('');
+			dispatch(login(formData));
+		}
+	};
+
 	return (
 		<>
 			<Item>
-				<Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
+				<Tabs value={tabValue} onChange={handleChangeTabs} aria-label='basic tabs example'>
 					<Tab label='Войти' {...a11yProps(0)} />
 					<Tab label='Регистрация' {...a11yProps(1)} />
 				</Tabs>
 				<div>
-					<CustomTabPanel value={value} index={0}>
-						<TextField fullWidth id='standard-basic' label='Логин' variant='outlined' margin='dense' />
-						<PasswordTextField label='Пароль' />
-					</CustomTabPanel>
-					<CustomTabPanel value={value} index={1}>
-						<TextField fullWidth id='standard-basic' label='Логин' variant='outlined' margin='dense' />
-						<PasswordTextField label='Пароль' />
-						<PasswordTextField label='Повторите пароль' />
-					</CustomTabPanel>
+					<TabPanel value={tabValue} index={0}>
+						<LoginTextField setFormData={setFormData} />
+						<PasswordTextField label='Пароль' setFormData={setFormData} value='password' />
+					</TabPanel>
+					<TabPanel value={tabValue} index={1}>
+						<LoginTextField setFormData={setFormData} />
+						<PasswordTextField label='Пароль' setFormData={setFormData} value='password' errorText={errorText} />
+						<PasswordTextField label='Повторите пароль' value='checkPassword' errorText={errorText} setFormData={setFormData} />
+					</TabPanel>
 				</div>
-				<StyledButton variant='contained' size='large' loading={loading} onClick={handleClick}>
-					Создать аккаунт
-				</StyledButton>
+				<SubmitButton tabValue={tabValue} handleClick={handleClick} />
 			</Item>
 		</>
 	);
