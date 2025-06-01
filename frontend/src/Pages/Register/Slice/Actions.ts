@@ -1,32 +1,27 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../../../api';
 import { IRegister } from './Models';
-import { AppDispatch } from '../../../store';
 
-export const login = createAsyncThunk(
-	'auth/login',
-	async (formData: IRegister, { rejectWithValue }) => {
-		const url = formData.checkPassword ? '/api/register' : '/api/login';
+export const login = createAsyncThunk('auth/login', async (formData: IRegister, { rejectWithValue }) => {
+	const url = formData.checkPassword ? 'http://localhost:8080/api/register' : 'http://localhost:8080/api/login';
 
-		try {
-			const response = await fetch(url, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					login: formData.login,
-					password: formData.password,
-				}),
-			});
+	try {
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				login: formData.login,
+				password: formData.password,
+			}),
+		});
 
-			const data = await response.json();
+		const data = await response.json();
 
-			if (!response.ok) {
-				throw new Error(data.error || 'Ошибка при запросе');
-			}
-
-			return data;
-		} catch (error: any) {
-			return rejectWithValue(error.message);
+		if (!response.ok) {
+			throw new Error(data.error || 'Ошибка при запросе');
 		}
+
+		return data;
+	} catch (error: any) {
+		return rejectWithValue(error.message);
 	}
-);
+});
