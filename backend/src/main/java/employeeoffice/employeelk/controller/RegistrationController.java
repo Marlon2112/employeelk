@@ -1,5 +1,6 @@
 package employeeoffice.employeelk.controller;
 
+import employeeoffice.employeelk.dto.LoginRequest;
 import employeeoffice.employeelk.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,14 +18,15 @@ public class RegistrationController {
     private LoginService loginService;
 
     @PostMapping
-    public ResponseEntity<?> registerUser(@RequestBody Map<String, String> request) {
-        String login = request.get("login");
-        String password = request.get("password");
+    public ResponseEntity<?> registerUser(@RequestBody LoginRequest request) {
+        String login = request.getLogin();
+        String password = request.getPassword();
 
         if (loginService.registerUser(login, password)) {
             return ResponseEntity.ok(Map.of("message", "Регистрация успешна!"));
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", "Этот логин уже занят."));
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", "Этот логин уже занят."));
         }
     }
 }

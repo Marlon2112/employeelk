@@ -1,25 +1,35 @@
 package employeeoffice.employeelk.controller;
 
+import employeeoffice.employeelk.dto.LoginRequest;
+import employeeoffice.employeelk.model.Login;
+import employeeoffice.employeelk.repository.LoginRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/login")
 public class AuthController {
 
-    @PostMapping
-    public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
-        String login = request.get("login");
-        String password = request.get("password");
+    @Autowired
+    private LoginRepository loginRepository;
 
-        // Здесь должна быть логика проверки пользователя, пока заглушка:
-        if ("admin".equals(login) && "admin".equals(password)) {
-            return ResponseEntity.ok(Map.of("message", "Авторизация успешна!"));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("error", "Неверные логин или пароль"));
-        }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @PostMapping
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        String login = request.getLogin();
+        String password = request.getPassword();
+
+        return loginRepository.findByLogin(login)
+                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
+                .map(user -> ResponseEntity.ok(Map.of("message", "Авторизация успешна!")))
+                .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "Неверные логин или пароль")));
     }
 }
