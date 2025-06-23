@@ -7,6 +7,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import theme from './Theme';
+import toast, { Toaster } from 'react-hot-toast';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -14,6 +15,7 @@ root.render(
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>
 				<App />
+				<Toaster />
 			</ThemeProvider>
 		</Provider>
 	</React.StrictMode>

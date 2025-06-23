@@ -9,11 +9,13 @@ import { SubmitButton } from './Components/SubmitButton';
 import { TabPanel } from './Components/TabPanel';
 import { login } from './Slice/Actions';
 import { IRegister } from './Slice/Models';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Item = styled.div`
 	text-align: center;
 	height: 366px;
-	width: 40%;
+	width: 32%;
 	margin: 8rem auto;
 	background-color: #f1f2f7;
 	border-radius: 4px;
@@ -24,19 +26,23 @@ const Item = styled.div`
 	justify-content: space-between;
 `;
 
+const initialState: IRegister = {
+	login: '',
+	password: '',
+	checkPassword: '',
+};
+
 export function Register() {
 	const dispatch = useAppDispatch();
-	const [formData, setFormData] = useState<IRegister>({
-		login: '',
-		password: '',
-		checkPassword: '',
-	});
+	const navigate = useNavigate();
+	const [formData, setFormData] = useState<IRegister>(initialState);
 	const [errorText, setErrorText] = useState('');
 
 	const [tabValue, setTabValue] = useState(0);
 
 	const handleChangeTabs = (_: React.SyntheticEvent, newValue: number) => {
 		setTabValue(newValue);
+		setFormData(initialState);
 	};
 
 	function a11yProps(index: number) {
@@ -51,7 +57,15 @@ export function Register() {
 			setErrorText('Пароли не совпадают');
 		} else {
 			setErrorText('');
-			dispatch(login(formData));
+			dispatch(login(formData))
+				.unwrap()
+				.then(() => {
+					navigate('/personalInfo');
+					toast.success('Авторизация успешна!');
+				})
+				.catch((error) => {
+					toast.error(error || 'Ошибка авторизации');
+				});
 		}
 	};
 

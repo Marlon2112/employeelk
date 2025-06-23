@@ -1,25 +1,14 @@
-# Используем базовый образ для Node.js
-FROM node:16
-
-# Устанавливаем рабочую директорию
+# 1. Сборка React-приложения
+FROM node:16 AS build
 WORKDIR /app
-
-# Копируем package.json и package-lock.json для установки зависимостей
 COPY package*.json ./
-COPY package-lock.json ./
-
-# Устанавливаем зависимости
 RUN npm install
-
-# Копируем все файлы проекта в контейнер
 COPY . .
-
-# Собираем приложение для продакшена
 RUN npm run build
 
-# Указываем порт контейнера
+# 2. Nginx для отдачи статики + проксирование API
+FROM nginx:1.25
+COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
-
-# Запуск сервера (напр. serve)
-CMD ["npx", "serve", "-s", "build", "-l", "80"]
-
+CMD ["nginx", "-g", "daemon off;"]
