@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-	padding: 1rem 2.4rem;
-	color: #5a67ba;
+	padding: 1rem 2rem;
+	color: #42464c;
 	font-weight: 600;
 	font-size: 18px;
+	display: inline;
 `;
 
 interface IProps {
