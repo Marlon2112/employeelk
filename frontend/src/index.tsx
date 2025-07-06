@@ -1,13 +1,13 @@
 import { ThemeProvider } from '@mui/material/styles';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import theme from './Theme';
-import toast, { Toaster } from 'react-hot-toast';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

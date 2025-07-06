@@ -1,3 +1,5 @@
+import { Header } from '../../Common/Header';
+
 export function Vacation() {
-	return <>Отпуск</>;
+	return <Header>Отпуск</Header>;
 }

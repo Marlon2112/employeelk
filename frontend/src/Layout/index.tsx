@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
 const OutletWrapper = styled.div`
-	padding: 3rem;
+	padding: 2rem;
 `;
 
 export function Layout(): React.ReactElement {

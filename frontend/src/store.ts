@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { loginReducer } from './Pages/Register/Slice/Reducer';
+import { employeeReducer } from './Pages/Admin/Slice';
 
 export const reducer = combineReducers({
 	login: loginReducer,
+	employee: employeeReducer,
 });
 
 export const store = configureStore({ reducer });
