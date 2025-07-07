@@ -1,3 +1,5 @@
+import { Header } from '../../Common/Header';
+
 export function SickLeave() {
-	return <>Больничный</>;
+	return <Header>Больничный</Header>;
 }

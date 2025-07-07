@@ -1,3 +1,5 @@
+import { Header } from '../../Common/Header';
+
 export function PersonalInfo() {
-	return <>Личный кабинет</>;
+	return <Header>Личный кабинет</Header>;
 }
