@@ -32,7 +32,7 @@ public class AdminController {
     }
 
     // Добавление нового сотрудника
-    @PostMapping("/addEmployee")
+    @PostMapping("/add-employee")
     public String addEmployee(@RequestParam String fullName, @RequestParam String email, Model model) {
         Employee employee = new Employee();
         employee.setFullName(fullName);
