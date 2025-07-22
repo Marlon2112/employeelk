@@ -1,19 +1,33 @@
 package employeeoffice.employeelk.controller;
 
+import employeeoffice.employeelk.dto.EmployeeRequest;
 import employeeoffice.employeelk.model.Employee;
 import employeeoffice.employeelk.model.Salary;
 import employeeoffice.employeelk.model.WorkingTime;
 import employeeoffice.employeelk.repository.EmployeeRepository;
 import employeeoffice.employeelk.repository.SalaryRepository;
 import employeeoffice.employeelk.repository.WorkingTimeRepository;
+import employeeoffice.employeelk.service.LoginService;
+
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/admin")
+//TODO поменять /api  на /api/admin, записать путь в SecurityConfig
+@RestController
+@RequestMapping("/api")
 public class AdminController {
+
+    private Logger logger = LoggerFactory.getLogger(AdminController.class);
+
+    @Autowired
+    private LoginService loginService;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -32,23 +46,37 @@ public class AdminController {
     }
 
     // Добавление нового сотрудника
+
     @PostMapping("/add-employee")
-    public String addEmployee(@RequestParam String fullName, @RequestParam String email, Model model) {
-        Employee employee = new Employee();
+    public ResponseEntity<?> addEmployee(@RequestBody EmployeeRequest request) {
+        /* Employee employee = new Employee();
+        logger.debug(String.format("Full Name: ", fullName));
         employee.setFullName(fullName);
+        logger.debug(String.format("E-mail: ", email));
         employee.setEmail(email);
         employeeRepository.save(employee);
+         */
         // Можно сразу создать запись зарплаты и рабочего времени
-        Salary salary = new Salary();
-        salary.setEmployee(employee);
-        salary.setAmount(0.0);
-        salaryRepository.save(salary);
+        // Salary salary = new Salary();к
+        // salary.setEmployee(employee);
+        // salary.setAmount(0.0);
+        // salaryRepository.save(salary);
 
-        WorkingTime wt = new WorkingTime();
-        wt.setEmployee(employee);
-        wt.setExtraHours(0);
-        workingTimeRepository.save(wt);
-        return "redirect:/admin";
+        // WorkingTime wt = new WorkingTime();
+        // wt.setEmployee(employee);
+        // wt.setExtraHours(0);
+        // workingTimeRepository.save(wt);
+        // 
+        String email = request.getEmail();
+        String fullName = request.getName();
+        logger.info("Получен запрос на добавление сотрудника: {}, e-mail: {}", fullName, email);
+
+        if (loginService.registerEmployee(fullName, email)) {
+            return ResponseEntity.ok(Map.of("message", "Сотрудник добавлен!"));
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", "Этот email уже занят."));
+        }
     }
 
     // Обновление зарплаты сотрудника
