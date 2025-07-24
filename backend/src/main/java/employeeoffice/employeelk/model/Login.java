@@ -1,6 +1,8 @@
 package employeeoffice.employeelk.model;
 
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "logins")
@@ -15,6 +17,14 @@ public class Login {
 
     @Column(nullable = false)
     private String password; // Будем хранить в зашифрованном виде
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = @JoinColumn(name = "login_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     // Геттеры и сеттеры
     public Long getId() {
@@ -36,5 +46,12 @@ public class Login {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

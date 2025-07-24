@@ -7,6 +7,7 @@ import employeeoffice.employeelk.repository.EmployeeRepository;
 import employeeoffice.employeelk.repository.SalaryRepository;
 import employeeoffice.employeelk.repository.WorkingTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class AdminController {
         return "admin";
     }
 
-    // Добавление нового сотрудника
+    @PreAuthorize("hasRole('HR')")
     @PostMapping("/addEmployee")
     public String addEmployee(@RequestParam String fullName, @RequestParam String email, Model model) {
         Employee employee = new Employee();
