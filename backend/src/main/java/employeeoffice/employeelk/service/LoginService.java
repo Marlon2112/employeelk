@@ -1,6 +1,8 @@
 package employeeoffice.employeelk.service;
 
+import employeeoffice.employeelk.model.Employee;
 import employeeoffice.employeelk.model.Login;
+import employeeoffice.employeelk.repository.EmployeeRepository;
 import employeeoffice.employeelk.repository.LoginRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,9 @@ public class LoginService {
 
     @Autowired
     private LoginRepository loginRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -36,5 +41,24 @@ public class LoginService {
         Login saved = loginRepository.save(newUser);
         logger.info("ID нового пользователя после save: {}", saved.getId());
         return true;
+    }
+
+
+    @Transactional
+    public boolean registerEmployee(String fullName, String email){
+        if(employeeRepository.findByEmail(email).isPresent()){
+            logger.info("Сотрудник с email:  {}, существует", email);
+            return false;
+        }
+
+        Employee newEmployee = new Employee();
+        newEmployee.setEmail(email);
+        newEmployee.setFullName(fullName);
+        logger.info("Сохраняю сотрудника:  {}, e-mail:  {}", fullName, email);
+        employeeRepository.save(newEmployee);
+        logger.info("Новый сотрудник добавлен в базу данных, id: {}", newEmployee.getId());
+        return true;
+
+        
     }
 }
