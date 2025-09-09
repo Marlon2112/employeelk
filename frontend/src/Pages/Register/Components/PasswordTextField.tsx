@@ -7,7 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { IRegister } from '../../Pages/Register/Slice/Models';
+import { IRegister } from '../Slice/Models';
 
 interface IProps {
 	label: string;

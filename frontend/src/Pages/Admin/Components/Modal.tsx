@@ -13,6 +13,7 @@ import { useAppDispatch } from '../../../store';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { addEmployeeIsLoading } from '../Slice/AddEmployee/Selectors';
+import { Header } from '../../../Common/Header';
 
 interface IProps {
 	isOpen: boolean;
@@ -57,7 +58,9 @@ export function Modal({ isOpen, onClose }: IProps) {
 
 	return (
 		<Dialog fullWidth maxWidth={'sm'} open={isOpen} onClose={onClose}>
-			<DialogTitle>Добавление сотрудника</DialogTitle>
+			<DialogTitle>
+				<Header>Добавление сотрудника</Header>
+			</DialogTitle>
 			<IconButton
 				aria-label='close'
 				onClick={onClose}

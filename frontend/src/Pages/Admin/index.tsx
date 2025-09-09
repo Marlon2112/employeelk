@@ -6,6 +6,13 @@ import { useAppDispatch } from '../../store';
 import { Modal } from './Components/Modal';
 import { TableEmployees } from './Components/Table';
 import { getEmployees } from './Slice/GetEmployees/Actions';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
 
 export function Admin() {
 	const dispatch = useAppDispatch();
@@ -25,10 +32,14 @@ export function Admin() {
 
 	return (
 		<>
-			<Header>Панель администратора</Header>
-			<Button variant='contained' startIcon={<AddIcon />} onClick={handleClickOpen}>
-				Добавить сотрудника
-			</Button>
+			<Wrapper>
+				<Header>Панель администратора</Header>
+				<div>
+					<Button variant='contained' startIcon={<AddIcon />} onClick={handleClickOpen}>
+						Добавить сотрудника
+					</Button>
+				</div>
+			</Wrapper>
 			<TableEmployees />
 			<Modal isOpen={isOpen} onClose={handleClose} />
 		</>

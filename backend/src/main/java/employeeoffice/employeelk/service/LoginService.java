@@ -46,6 +46,17 @@ public class LoginService {
 
     @Transactional
     public boolean registerEmployee(String fullName, String email){
+        if (fullName == null || fullName.trim().isEmpty()){
+            logger.info("Имя сотрудника не может быть пустым");
+            return false;
+        }
+
+        if (email == null || email.trim().isEmpty()){
+            logger.info("Email сотрудника не может быть пустым");
+            return false;
+        }
+
+
         if(employeeRepository.findByEmail(email).isPresent()){
             logger.info("Сотрудник с email:  {}, существует", email);
             return false;

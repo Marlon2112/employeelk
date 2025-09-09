@@ -71,11 +71,26 @@ public class AdminController {
         String fullName = request.getName();
         logger.info("Получен запрос на добавление сотрудника: {}, e-mail: {}", fullName, email);
 
-        if (loginService.registerEmployee(fullName, email)) {
-            return ResponseEntity.ok(Map.of("message", "Сотрудник добавлен!"));
-        } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Map.of("error", "Этот email уже занят."));
+        if (fullName == null || fullName.trim().isEmpty()){
+            return ResponseEntity.badRequest()
+                .body(Map.of("error", "Имя сотрудника не может быть пустым"));
+        }
+
+        if (email == null || email.trim().isEmpty()){
+            return ResponseEntity.badRequest()
+                .body(Map.of("error", "Email сотрудника не может быть пустым"));
+        }
+
+        try {
+            if (loginService.registerEmployee(fullName, email)) {
+                return ResponseEntity.ok(Map.of("message", "Сотрудник добавлен!"));
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body(Map.of("error", "Этот email уже занят."));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Внутренняя ошибка сервера"));
         }
     }
 
