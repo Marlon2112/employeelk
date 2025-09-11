@@ -2,6 +2,7 @@ package employeeoffice.employeelk.repository;
 
 import employeeoffice.employeelk.model.Employee;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Employee findByFullName(String fullName);
 
     Optional<Employee> findByEmail(String email);
+
+    List<Employee> findAllByOrderByFullNameAsc();
+
+    Employee findById(long id);
 }
