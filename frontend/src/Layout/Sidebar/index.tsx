@@ -12,7 +12,7 @@ const List = styled.ul`
 
 const Wrapper = styled.div`
 	background-color: #f1f2f7;
-	height: 100vh;
+	height: 100%;
 	color: #c4c7db;
 	margin: 0;
 	padding: 0;

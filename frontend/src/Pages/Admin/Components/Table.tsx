@@ -49,9 +49,9 @@ export function TableEmployees() {
 				<TableBody>
 					{employees &&
 						employees.map((row) => (
-							<TableRow key={row.name} sx={{ '& > *': { borderBottom: 'unset' } }}>
+							<TableRow key={row.fullName} sx={{ '& > *': { borderBottom: 'unset' } }}>
 								<TableCell component='th' scope='row'>
-									{row.name}
+									{row.fullName}
 								</TableCell>
 								<TableCell>{row.email}</TableCell>
 								<TableCell>

@@ -3,9 +3,7 @@ import { IEmployee } from './Models';
 
 export const getEmployees = createAsyncThunk<IEmployee[]>('getEmployees', async (_, { rejectWithValue }) => {
 	try {
-		const url = 'api/employees'; // заменить когда бэк будет готов
-		const mockUrl = '/Stub/employees.json';
-		const response = await fetch(mockUrl, {
+		const response = await fetch('api/employees', {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },
 		});

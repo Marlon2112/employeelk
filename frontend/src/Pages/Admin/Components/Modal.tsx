@@ -14,6 +14,7 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { addEmployeeIsLoading } from '../Slice/AddEmployee/Selectors';
 import { Header } from '../../../Common/Header';
+import { getEmployees } from '../Slice/GetEmployees/Actions';
 
 interface IProps {
 	isOpen: boolean;
@@ -23,6 +24,7 @@ interface IProps {
 const initialState: IEmployee = {
 	name: '',
 	email: '',
+	salary: '',
 };
 
 export function Modal({ isOpen, onClose }: IProps) {
@@ -36,23 +38,17 @@ export function Modal({ isOpen, onClose }: IProps) {
 			.then(() => {
 				toast.success('Сотрудник добавлен!');
 				onClose();
+				dispatch(getEmployees());
 			})
 			.catch((error) => {
 				toast.error(error);
 			});
 	};
 
-	const handleChangeValueName = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChangeValue = (field: keyof IEmployee) => (event: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData((prev) => ({
 			...prev,
-			name: event.target.value,
-		}));
-	};
-
-	const handleChangeValueEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setFormData((prev) => ({
-			...prev,
-			email: event.target.value,
+			[field]: event.target.value,
 		}));
 	};
 
@@ -80,13 +76,14 @@ export function Modal({ isOpen, onClose }: IProps) {
 					sx={{
 						display: 'flex',
 						flexDirection: 'column',
-						m: '1rem',
-						minHeight: '150px',
+						m: '0.5rem 1rem',
+						minHeight: '200px',
 						justifyContent: 'space-around',
 					}}
 				>
-					<TextField fullWidth id='standard-basic' label='ФИО' variant='outlined' onChange={handleChangeValueName} />
-					<TextField fullWidth id='standard-basic' label='Email' variant='outlined' onChange={handleChangeValueEmail} />
+					<TextField fullWidth label='ФИО' variant='outlined' onChange={handleChangeValue('name')} />
+					<TextField fullWidth label='Email' variant='outlined' onChange={handleChangeValue('email')} margin='normal' />
+					<TextField fullWidth label='Оклад' variant='outlined' onChange={handleChangeValue('salary')} margin='normal' />
 				</Box>
 			</DialogContent>
 			<DialogActions
