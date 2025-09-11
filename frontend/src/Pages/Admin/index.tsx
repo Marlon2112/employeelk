@@ -7,6 +7,7 @@ import { Modal } from './Components/Modal';
 import { TableEmployees } from './Components/Table';
 import { getEmployees } from './Slice/GetEmployees/Actions';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -16,6 +17,7 @@ const Wrapper = styled.div`
 
 export function Admin() {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const handleClickOpen = () => {
@@ -24,6 +26,7 @@ export function Admin() {
 
 	const handleClose = () => {
 		setIsOpen(false);
+		navigate('.');
 	};
 
 	React.useEffect(() => {
@@ -40,7 +43,7 @@ export function Admin() {
 					</Button>
 				</div>
 			</Wrapper>
-			<TableEmployees />
+			<TableEmployees onModalOpen={handleClickOpen} />
 			<Modal isOpen={isOpen} onClose={handleClose} />
 		</>
 	);

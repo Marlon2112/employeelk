@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Loader } from '../../../Common/Loader';
 import { getEmployeesData, getEmployeesIsLoading } from '../Slice/GetEmployees/Selectors';
+import { useSearchParams } from 'react-router-dom';
 
 const IconsWrapper = styled.div`
 	svg {
@@ -23,13 +24,25 @@ const IconsWrapper = styled.div`
 	}
 `;
 
-export function TableEmployees() {
+interface IProps {
+	onModalOpen: () => void;
+}
+
+export function TableEmployees({ onModalOpen }: IProps) {
+	const [_, setSearchParams] = useSearchParams();
 	const employees = useSelector(getEmployeesData);
 	const isLoading = useSelector(getEmployeesIsLoading);
 
 	if (isLoading) {
 		return <Loader />;
 	}
+
+	const handleClickEdit = (id: number) => () => {
+		setSearchParams({
+			employeeId: String(id),
+		});
+		onModalOpen();
+	};
 
 	return (
 		<TableContainer
@@ -56,7 +69,7 @@ export function TableEmployees() {
 								<TableCell>{row.email}</TableCell>
 								<TableCell>
 									<IconsWrapper>
-										<IconButton aria-label='expand row' size='small'>
+										<IconButton aria-label='expand row' size='small' onClick={handleClickEdit(row.id)}>
 											<ModeEditIcon />
 										</IconButton>
 										<IconButton aria-label='expand row' size='small'>

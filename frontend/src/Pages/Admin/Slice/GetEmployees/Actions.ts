@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IEmployee } from './Models';
+import { IEmployee } from '../Models';
 
 export const getEmployees = createAsyncThunk<IEmployee[]>('getEmployees', async (_, { rejectWithValue }) => {
 	try {
