@@ -3,7 +3,7 @@ import DialogActions from '@mui/material/DialogActions';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../../../store';
-import { addEmployeeIsLoading } from '../../../Slice/AddEmployee/Selectors';
+import { employeeActionIsLoading } from '../../../Slice/AddEmployee/Selectors';
 import { addEmployee, updateEmployee } from '../../../Slice/AddEmployee/Actions';
 import { getEmployees } from '../../../Slice/GetEmployees/Actions';
 import { IEmployee } from '../../../Slice/Models';
@@ -16,7 +16,7 @@ interface IProps {
 
 export function Actions({ formData, onClose }: IProps) {
 	const dispatch = useAppDispatch();
-	const isLoadingPost = useSelector(addEmployeeIsLoading);
+	const isLoadingPost = useSelector(employeeActionIsLoading);
 	const [searchParams] = useSearchParams();
 	const employeeId = searchParams.get('employeeId');
 

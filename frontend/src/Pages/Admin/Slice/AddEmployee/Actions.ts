@@ -41,3 +41,22 @@ export const updateEmployee = createAsyncThunk('updateEmployee', async (formData
 		return rejectWithValue(error.message);
 	}
 });
+
+export const deleteEmployee = createAsyncThunk('deleteEmployee', async (id: number, { rejectWithValue }) => {
+	try {
+		const response = await fetch(`/api/delete-employee/${id}`, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' },
+		});
+
+		const data = await response.json();
+
+		if (!response.ok) {
+			throw new Error(data.error || 'Ошибка при запросе');
+		}
+
+		return data;
+	} catch (error: any) {
+		return rejectWithValue(error.message);
+	}
+});
