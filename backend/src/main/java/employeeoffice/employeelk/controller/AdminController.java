@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 //TODO поменять /api  на /api/admin, записать путь в SecurityConfig
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/employees")
 public class AdminController {
 
     private Logger logger = LoggerFactory.getLogger(AdminController.class);
