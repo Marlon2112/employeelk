@@ -6,7 +6,7 @@
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <!-- Создание таблицы сотрудников -->
-    <changeSet id="1" author="author">
+    <changeSet id="1" author="N.Halilov">
         <createTable tableName="employees">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
@@ -19,7 +19,7 @@
     </changeSet>
 
     <!-- Таблица зарплаты -->
-    <changeSet id="2" author="author">
+    <changeSet id="2" author="N.Halilov">
         <createTable tableName="salaries">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
@@ -37,7 +37,7 @@
     </changeSet>
 
     <!-- Таблица рабочего времени -->
-    <changeSet id="3" author="author">
+    <changeSet id="3" author="N.Halilov">
         <createTable tableName="working_times">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
@@ -55,7 +55,7 @@
     </changeSet>
 
     <!-- Таблица отпусков -->
-    <changeSet id="4" author="author">
+    <changeSet id="4" author="N.Halilov">
         <createTable tableName="vacations">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
@@ -74,7 +74,7 @@
     </changeSet>
 
     <!-- Таблица больничного -->
-    <changeSet id="5" author="author">
+    <changeSet id="5" author="N.Halilov">
         <createTable tableName="sick_leaves">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
@@ -93,7 +93,7 @@
                                  constraintName="fk_sickleave_employee"/>
     </changeSet>
     <!-- Регистрация -->
-    <changeSet id="6" author="your_name">
+    <changeSet id="6" author="N.Halilov">
         <createTable tableName="logins">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
@@ -107,8 +107,29 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="logins-add-role-and-mustchange" author="you">
+        <addColumn tableName="logins">
+            <column name="role" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="must_change_password" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <!-- Суперюзер -->
+    <changeSet id="seed-admin" author="N.Halilov" context="seed">
+        <insert tableName="logins">
+            <column name="login" value="admin"/>
+            <column name="password" value="$2a$10$UXbsdCBUMwuUMODfXeKGLOJKstGDeQPYvjIVgVhu/EchpAv7fbYF6"/>
+            <column name="role" value="ADMIN"/>
+            <column name="must_change_password" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+
     <!-- Таблица ролей -->
-    <changeSet id="7" author="your_name">
+    <changeSet id="7" author="N.Halilov">
         <createTable tableName="roles">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
@@ -120,7 +141,7 @@
     </changeSet>
 
     <!-- Таблица user_roles для связи многие-ко-многим между logins и roles -->
-    <changeSet id="8" author="your_name">
+    <changeSet id="8" author="N.Halilov">
         <createTable tableName="user_roles">
             <column name="login_id" type="BIGINT">
                 <constraints nullable="false"/>

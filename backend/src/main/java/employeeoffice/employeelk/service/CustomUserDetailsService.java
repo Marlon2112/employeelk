@@ -1,7 +1,6 @@
 package employeeoffice.employeelk.service;
 
 import employeeoffice.employeelk.model.Login;
-import employeeoffice.employeelk.model.Role;
 import employeeoffice.employeelk.repository.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -9,8 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -25,8 +22,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return User.builder()
                 .username(user.getLogin())
-                .password(user.getPassword()) // `bcrypt` пароль
-                .roles(user.getRoles().stream().map(Role::getName).toArray(String[]::new))
+                .password(user.getPassword())         // bcrypt
+                .roles(user.getRole().name())         // ADMIN / HR / EMPLOYEE
                 .build();
     }
 }

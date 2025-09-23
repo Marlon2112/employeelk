@@ -1,8 +1,7 @@
 package employeeoffice.employeelk.model;
 
+import employeeoffice.employeelk.security.Role;
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "logins")
@@ -16,17 +15,15 @@ public class Login {
     private String login;
 
     @Column(nullable = false)
-    private String password; // Будем хранить в зашифрованном виде
+    private String password; // хранить bcrypt-хэш
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "user_roles",
-        joinColumns = @JoinColumn(name = "login_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.EMPLOYEE;
 
-    // Геттеры и сеттеры
+    @Column(name = "must_change_password", nullable = false)
+    private Boolean mustChangePassword = Boolean.FALSE;
+
     public Long getId() {
         return id;
     }
@@ -48,10 +45,17 @@ public class Login {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Boolean getMustChangePassword() {
+        return mustChangePassword;
+    }
+    public void setMustChangePassword(Boolean mustChangePassword) {
+        this.mustChangePassword = mustChangePassword;
     }
 }
