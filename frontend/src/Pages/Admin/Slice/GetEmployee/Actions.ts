@@ -3,7 +3,7 @@ import { IEmployee } from '../Models';
 
 export const getEmployeeById = createAsyncThunk<IEmployee, number>('getEmployeeById', async (id, { rejectWithValue }) => {
 	try {
-		const response = await fetch(`api/employees/${id}`, {
+		const response = await fetch(`api/admin/employees/${id}`, {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },
 		});

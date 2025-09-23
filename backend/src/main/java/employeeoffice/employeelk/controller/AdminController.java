@@ -11,6 +11,7 @@ import employeeoffice.employeelk.service.LoginService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +68,7 @@ public class AdminController {
 
     // Добавление нового сотрудника
     @PostMapping("/employee")
-    public ResponseEntity<?> addEmployee(@RequestBody EmployeeRequest request) {
+    public ResponseEntity<?> addEmployee(@RequestBody EmployeeRequest employeeRequest) {
         /* Employee employee = new Employee();
         logger.debug(String.format("Full Name: ", fullName));
         employee.setFullName(fullName);
@@ -86,8 +87,8 @@ public class AdminController {
         // wt.setExtraHours(0);
         // workingTimeRepository.save(wt);
         // 
-        String email = request.getEmail();
-        String fullName = request.getFullName();
+        String email = employeeRequest.getEmail();
+        String fullName = employeeRequest.getFullName();
         logger.info("Получен запрос на добавление сотрудника: {}, e-mail: {}", fullName, email);
 
         if (fullName == null || fullName.trim().isEmpty()){
@@ -101,7 +102,7 @@ public class AdminController {
         }
 
         try {
-            if (loginService.registerEmployee(fullName, email)) {
+            if (loginService.registerEmployee(employeeRequest)) {
                 return ResponseEntity.ok(Map.of("message", "Сотрудник добавлен!"));
             } else {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
@@ -140,7 +141,9 @@ public class AdminController {
                         .body(Map.of("error", "Email сотрудника не может быть пустым"));
             }
 
-            if(employeeRepository.findByEmail(email).isPresent()){
+            // Проверяем не существует ли другой сотрудник с таким же email.
+            Optional<Employee> existingEmailEmployee = employeeRepository.findByEmail(email);
+            if(existingEmailEmployee.isPresent() && existingEmailEmployee.get().getId() != id){
                 logger.info("Сотрудник с email:  {}, существует", email);
                 return ResponseEntity.status(HttpStatus.CONFLICT)
                         .body(Map.of("error", "Этот email уже занят."));
@@ -186,7 +189,7 @@ public class AdminController {
     public String updateSalary(@RequestParam Long employeeId, @RequestParam Double amount) {
         Salary salary = salaryRepository.findByEmployee(employeeRepository.findById(employeeId).orElse(null));
         if (salary != null) {
-            salary.setAmount(amount);
+            salary.setSalary(amount);
             salaryRepository.save(salary);
         }
         return "redirect:/admin";

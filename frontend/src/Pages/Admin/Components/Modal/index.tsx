@@ -19,6 +19,7 @@ interface IProps {
 const initialState: Omit<IEmployee, 'id'> = {
 	fullName: '',
 	email: '',
+	salary: null,
 };
 
 export function Modal({ isOpen, onClose }: IProps) {
