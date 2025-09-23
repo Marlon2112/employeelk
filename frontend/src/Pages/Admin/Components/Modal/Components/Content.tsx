@@ -24,6 +24,16 @@ export function Content({ setFormData, formData }: IProps) {
 		}));
 	};
 
+	const handleChangeSalaryValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const inputValue = event.target.value;
+		if (inputValue === '' || /^\d+$/.test(inputValue)) {
+			setFormData((prev) => ({
+				...prev,
+				salary: Number(event.target.value),
+			}));
+		}
+	};
+
 	return employeeId && isLoadingGet ? (
 		<Loader />
 	) : (
@@ -46,7 +56,7 @@ export function Content({ setFormData, formData }: IProps) {
 					fullWidth
 					label='Оклад'
 					variant='outlined'
-					onChange={handleChangeValue('salary')}
+					onChange={handleChangeSalaryValue}
 					margin='dense'
 					value={formData.salary}
 					slotProps={{

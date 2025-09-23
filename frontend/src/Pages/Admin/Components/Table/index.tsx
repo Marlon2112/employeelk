@@ -56,7 +56,7 @@ export function TableEmployees({ onModalOpen }: IProps) {
 		});
 	};
 
-	return employees ? (
+	return employees && employees.length ? (
 		<TableContainer
 			component={Paper}
 			sx={{
