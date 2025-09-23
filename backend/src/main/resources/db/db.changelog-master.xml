@@ -141,4 +141,11 @@
             );
         </sql>
     </changeSet>
+    <changeSet id="create-root-user" author="Maksim Kutepov" runOnChange="true" runAlways="true">
+        <sql>
+            INSERT INTO logins (login, password)
+            SELECT 'root', '${root_user_password}'
+            WHERE NOT EXISTS (SELECT 1 FROM logins WHERE login = 'root');
+        </sql>
+    </changeSet>
 </databaseChangeLog>
