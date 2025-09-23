@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IRegister } from './Models';
 
 export const login = createAsyncThunk('auth/login', async (formData: IRegister, { rejectWithValue }) => {
-	const url = formData.checkPassword ? '/api/register' : '/api/login';
+	const url = '/api/login';
 
 	try {
 		const response = await fetch(url, {

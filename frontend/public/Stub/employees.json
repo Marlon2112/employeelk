@@ -1,22 +1,17 @@
 [
 	{
-		"name": "Иван Иванов",
-		"email": "ivan.ivanov@example.com"
+		"fullName": "Иван Иванов",
+		"email": "ivan.ivanov@example.com",
+		"id": 1
 	},
 	{
-		"name": "Петр Петров",
-		"email": "petr.petrov@example.com"
+		"fullName": "Петр Петров",
+		"email": "petr.petrov@example.com",
+		"id": 3
 	},
 	{
-		"name": "Алексей Сидоров",
-		"email": "aleksey.sidorov@example.com"
-	},
-	{
-		"name": "Елена Кузнецова",
-		"email": "elena.kuznetsova@example.com"
-	},
-	{
-		"name": "Мария Смирнова",
-		"email": "maria.smirnova@example.com"
+		"fullName": "Алексей Сидоров",
+		"email": "aleksey.sidorov@example.com",
+		"id": 2
 	}
 ]

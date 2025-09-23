@@ -6,12 +6,15 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Loader } from '../../../Common/Loader';
-import { getEmployeesData, getEmployeesIsLoading } from '../Slice/GetEmployees/Selectors';
+import { Loader } from '../../../../Common/Loader';
+import { getEmployeesData, getEmployeesIsLoading } from '../../Slice/GetEmployees/Selectors';
+import { DeleteDialog } from './Components/DeleteDialog';
+import { TableHeader } from './Components/TableHeader';
 
 const IconsWrapper = styled.div`
 	svg {
@@ -23,13 +26,34 @@ const IconsWrapper = styled.div`
 	}
 `;
 
-export function TableEmployees() {
+interface IProps {
+	onModalOpen: () => void;
+}
+
+export function TableEmployees({ onModalOpen }: IProps) {
+	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
+	const [_, setSearchParams] = useSearchParams();
 	const employees = useSelector(getEmployeesData);
 	const isLoading = useSelector(getEmployeesIsLoading);
 
 	if (isLoading) {
 		return <Loader />;
 	}
+
+	const handleClickEdit = (id: number) => () => {
+		setSearchParams({
+			employeeId: String(id),
+		});
+		onModalOpen();
+	};
+
+	const handleClickDelete = (id: number) => () => {
+		setOpenDeleteDialog(true);
+		setSearchParams({
+			employeeId: String(id),
+		});
+	};
 
 	return (
 		<TableContainer
@@ -39,27 +63,21 @@ export function TableEmployees() {
 			}}
 		>
 			<Table aria-label='collapsible table'>
-				<TableHead>
-					<TableRow>
-						<TableCell>ФИО</TableCell>
-						<TableCell>Email</TableCell>
-						<TableCell style={{ width: 70 }} />
-					</TableRow>
-				</TableHead>
+				<TableHeader />
 				<TableBody>
 					{employees &&
 						employees.map((row) => (
-							<TableRow key={row.name} sx={{ '& > *': { borderBottom: 'unset' } }}>
+							<TableRow key={row.fullName} sx={{ '& > *': { borderBottom: 'unset' } }}>
 								<TableCell component='th' scope='row'>
-									{row.name}
+									{row.fullName}
 								</TableCell>
 								<TableCell>{row.email}</TableCell>
 								<TableCell>
 									<IconsWrapper>
-										<IconButton aria-label='expand row' size='small'>
+										<IconButton aria-label='expand row' size='small' onClick={handleClickEdit(row.id)}>
 											<ModeEditIcon />
 										</IconButton>
-										<IconButton aria-label='expand row' size='small'>
+										<IconButton aria-label='expand row' size='small' onClick={handleClickDelete(row.id)}>
 											<DeleteIcon />
 										</IconButton>
 									</IconsWrapper>
@@ -67,6 +85,7 @@ export function TableEmployees() {
 							</TableRow>
 						))}
 				</TableBody>
+				<DeleteDialog openDeleteDialog={openDeleteDialog} setOpenDeleteDialog={setOpenDeleteDialog} />
 			</Table>
 		</TableContainer>
 	);

@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { EReduxStatus } from '../../../../Common/Enums';
 import { getInitialState } from '../../../../Common/Utils';
 import { getEmployees } from './Actions';
-import { IEmployee } from './Models';
+import { IEmployee } from '../Models';
 
 const INITIAL_SLICE_STATE = getInitialState<IEmployee[] | null>(null);
 

@@ -1,6 +1,6 @@
 import { EReduxStatus } from '../../../../Common/Enums';
 import { TReduxState } from '../../../../store';
 
-export const addEmployeeIsLoading = ({ employee }: TReduxState) => {
+export const employeeActionIsLoading = ({ employee }: TReduxState) => {
 	return employee.addEmployee.status === EReduxStatus.RUNNING;
 };

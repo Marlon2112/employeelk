@@ -6,9 +6,18 @@ import { useAppDispatch } from '../../store';
 import { Modal } from './Components/Modal';
 import { TableEmployees } from './Components/Table';
 import { getEmployees } from './Slice/GetEmployees/Actions';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
+const Wrapper = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
 
 export function Admin() {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const handleClickOpen = () => {
@@ -17,6 +26,7 @@ export function Admin() {
 
 	const handleClose = () => {
 		setIsOpen(false);
+		navigate('.');
 	};
 
 	React.useEffect(() => {
@@ -25,11 +35,15 @@ export function Admin() {
 
 	return (
 		<>
-			<Header>Панель администратора</Header>
-			<Button variant='contained' startIcon={<AddIcon />} onClick={handleClickOpen}>
-				Добавить сотрудника
-			</Button>
-			<TableEmployees />
+			<Wrapper>
+				<Header>Панель администратора</Header>
+				<div>
+					<Button variant='contained' startIcon={<AddIcon />} onClick={handleClickOpen}>
+						Добавить сотрудника
+					</Button>
+				</div>
+			</Wrapper>
+			<TableEmployees onModalOpen={handleClickOpen} />
 			<Modal isOpen={isOpen} onClose={handleClose} />
 		</>
 	);

@@ -37,10 +37,9 @@ public class SecurityConfig {
                     return config;
                 }))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/api/register", "/api/login", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/",  "/api/login", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/api-docs/**", "/api-docs.yaml").permitAll()
-                        .requestMatchers("/admin/**").hasRole("HR")
-                        .requestMatchers("/personalinfo/**", "/vacation/**", "/sickleave/**").hasAnyRole("EMPLOYEE", "HR")
+                        .requestMatchers("/api/admin/employee", "/api/admin/employees", "/api/admin/employees/{id}", "/api/admin/employee/{id}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
