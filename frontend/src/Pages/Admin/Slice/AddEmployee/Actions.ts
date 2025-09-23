@@ -4,7 +4,7 @@ import { IServerAnswer } from './Reducer';
 
 export const addEmployee = createAsyncThunk<IServerAnswer, Omit<IEmployee, 'id'>>('addEmployee', async (formData, { rejectWithValue }) => {
 	try {
-		const response = await fetch('/api/add-employee', {
+		const response = await fetch('/api/admin/employee', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(formData),
@@ -24,7 +24,7 @@ export const addEmployee = createAsyncThunk<IServerAnswer, Omit<IEmployee, 'id'>
 
 export const updateEmployee = createAsyncThunk('updateEmployee', async (formData: IEmployee, { rejectWithValue }) => {
 	try {
-		const response = await fetch('/api/update-employee', {
+		const response = await fetch('/api/admin/employee', {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(formData),
@@ -44,7 +44,7 @@ export const updateEmployee = createAsyncThunk('updateEmployee', async (formData
 
 export const deleteEmployee = createAsyncThunk('deleteEmployee', async (id: number, { rejectWithValue }) => {
 	try {
-		const response = await fetch(`/api/delete-employee/${id}`, {
+		const response = await fetch(`/api/admin/employee/${id}`, {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' },
 		});

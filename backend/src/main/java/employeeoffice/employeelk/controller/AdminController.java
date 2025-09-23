@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/admin")
 public class AdminController {
 
-    private Logger logger = LoggerFactory.getLogger(AdminController.class);
+    private final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
     private LoginService loginService;
@@ -87,7 +87,7 @@ public class AdminController {
         // workingTimeRepository.save(wt);
         // 
         String email = request.getEmail();
-        String fullName = request.getName();
+        String fullName = request.getFullName();
         logger.info("Получен запрос на добавление сотрудника: {}, e-mail: {}", fullName, email);
 
         if (fullName == null || fullName.trim().isEmpty()){
