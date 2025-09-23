@@ -70,6 +70,6 @@ public class LoginService {
         logger.info("Новый сотрудник добавлен в базу данных, id: {}", newEmployee.getId());
         return true;
 
-        
+
     }
 }
