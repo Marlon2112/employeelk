@@ -1,9 +1,13 @@
 package employeeoffice.employeelk.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "salaries")
+@Getter
+@Setter
 public class Salary {
 
     @Id
@@ -16,25 +20,5 @@ public class Salary {
     private Employee employee;
 
     // Текущая зарплата
-    private Double amount;
-
-    // Геттеры и сеттеры
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public Employee getEmployee() {
-        return employee;
-    }
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-    public Double getAmount() {
-        return amount;
-    }
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
+    private Double salary;
 }

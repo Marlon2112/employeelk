@@ -1,5 +1,6 @@
 package employeeoffice.employeelk.service;
 
+import employeeoffice.employeelk.dto.EmployeeRequest;
 import employeeoffice.employeelk.model.Employee;
 import employeeoffice.employeelk.model.Login;
 import employeeoffice.employeelk.repository.EmployeeRepository;
@@ -45,7 +46,11 @@ public class LoginService {
 
 
     @Transactional
-    public boolean registerEmployee(String fullName, String email){
+    public boolean registerEmployee(EmployeeRequest employeeRequest){
+        String email = employeeRequest.getEmail();
+        String fullName = employeeRequest.getFullName();
+        Double salary = employeeRequest.getSalary();
+
         if (fullName == null || fullName.trim().isEmpty()){
             logger.info("Имя сотрудника не может быть пустым");
             return false;
@@ -65,11 +70,12 @@ public class LoginService {
         Employee newEmployee = new Employee();
         newEmployee.setEmail(email);
         newEmployee.setFullName(fullName);
+        newEmployee.setSalary(salary);
         logger.info("Сохраняю сотрудника:  {}, e-mail:  {}", fullName, email);
         employeeRepository.save(newEmployee);
         logger.info("Новый сотрудник добавлен в базу данных, id: {}", newEmployee.getId());
         return true;
 
-        
+
     }
 }

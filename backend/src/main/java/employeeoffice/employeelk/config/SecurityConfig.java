@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/",  "/api/login", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/api-docs/**", "/api-docs.yaml").permitAll()
-                        .requestMatchers("/api/add-employee").permitAll()
+                        .requestMatchers("/api/admin/employee", "/api/admin/employees", "/api/admin/employees/{id}", "/api/admin/employee/{id}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

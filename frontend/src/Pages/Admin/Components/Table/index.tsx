@@ -15,6 +15,7 @@ import { Loader } from '../../../../Common/Loader';
 import { getEmployeesData, getEmployeesIsLoading } from '../../Slice/GetEmployees/Selectors';
 import { DeleteDialog } from './Components/DeleteDialog';
 import { TableHeader } from './Components/TableHeader';
+import { EmptyPage } from '../../../../Common/EmptyPage';
 
 const IconsWrapper = styled.div`
 	svg {
@@ -55,7 +56,7 @@ export function TableEmployees({ onModalOpen }: IProps) {
 		});
 	};
 
-	return (
+	return employees && employees.length ? (
 		<TableContainer
 			component={Paper}
 			sx={{
@@ -68,10 +69,9 @@ export function TableEmployees({ onModalOpen }: IProps) {
 					{employees &&
 						employees.map((row) => (
 							<TableRow key={row.fullName} sx={{ '& > *': { borderBottom: 'unset' } }}>
-								<TableCell component='th' scope='row'>
-									{row.fullName}
-								</TableCell>
+								<TableCell>{row.fullName}</TableCell>
 								<TableCell>{row.email}</TableCell>
+								<TableCell>{row.salary || '---'} ₽</TableCell>
 								<TableCell>
 									<IconsWrapper>
 										<IconButton aria-label='expand row' size='small' onClick={handleClickEdit(row.id)}>
@@ -88,5 +88,7 @@ export function TableEmployees({ onModalOpen }: IProps) {
 				<DeleteDialog openDeleteDialog={openDeleteDialog} setOpenDeleteDialog={setOpenDeleteDialog} />
 			</Table>
 		</TableContainer>
+	) : (
+		<EmptyPage />
 	);
 }

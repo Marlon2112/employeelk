@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import DialogContent from '@mui/material/DialogContent';
 import { useSelector } from 'react-redux';
@@ -24,6 +24,16 @@ export function Content({ setFormData, formData }: IProps) {
 		}));
 	};
 
+	const handleChangeSalaryValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const inputValue = event.target.value;
+		if (inputValue === '' || /^\d+$/.test(inputValue)) {
+			setFormData((prev) => ({
+				...prev,
+				salary: Number(event.target.value),
+			}));
+		}
+	};
+
 	return employeeId && isLoadingGet ? (
 		<Loader />
 	) : (
@@ -39,9 +49,22 @@ export function Content({ setFormData, formData }: IProps) {
 					justifyContent: 'space-around',
 				}}
 			>
-				<TextField fullWidth label='ФИО' variant='outlined' onChange={handleChangeValue('fullName')} value={formData.fullName} />
-				<TextField fullWidth label='Email' variant='outlined' onChange={handleChangeValue('email')} margin='normal' value={formData.email} />
-				{/* <TextField fullWidth label='Оклад' variant='outlined' onChange={handleChangeValue('salary')} margin='normal' /> */}
+				<TextField fullWidth label='ФИО' variant='outlined' onChange={handleChangeValue('fullName')} margin='dense' value={formData.fullName} />
+				<TextField fullWidth label='Email' variant='outlined' onChange={handleChangeValue('email')} margin='dense' value={formData.email} />
+				{/* TODO: добавить валидациию на цифры */}
+				<TextField
+					fullWidth
+					label='Оклад'
+					variant='outlined'
+					onChange={handleChangeSalaryValue}
+					margin='dense'
+					value={formData.salary}
+					slotProps={{
+						input: {
+							endAdornment: <InputAdornment position='start'>₽</InputAdornment>,
+						},
+					}}
+				/>
 			</Box>
 		</DialogContent>
 	);

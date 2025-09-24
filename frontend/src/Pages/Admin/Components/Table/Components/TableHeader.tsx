@@ -8,6 +8,7 @@ export function TableHeader() {
 			<TableRow>
 				<TableCell>ФИО</TableCell>
 				<TableCell>Email</TableCell>
+				<TableCell style={{ width: 200 }}>Оклад</TableCell>
 				<TableCell style={{ width: 70 }} />
 			</TableRow>
 		</TableHead>

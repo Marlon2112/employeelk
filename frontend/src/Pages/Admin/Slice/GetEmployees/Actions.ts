@@ -3,7 +3,7 @@ import { IEmployee } from '../Models';
 
 export const getEmployees = createAsyncThunk<IEmployee[]>('getEmployees', async (_, { rejectWithValue }) => {
 	try {
-		const response = await fetch('api/employees', {
+		const response = await fetch('api/admin/employees', {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },
 		});
