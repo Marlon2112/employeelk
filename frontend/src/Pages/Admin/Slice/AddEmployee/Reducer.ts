@@ -2,10 +2,7 @@ import { createReducer, isAnyOf } from '@reduxjs/toolkit';
 import { EReduxStatus } from '../../../../Common/Enums';
 import { getInitialState } from '../../../../Common/Utils';
 import { addEmployee, deleteEmployee, updateEmployee } from './Actions';
-
-export interface IServerAnswer {
-	message?: string;
-}
+import { IServerAnswer } from '../../../../Common/Models';
 
 const INITIAL_SLICE_STATE = getInitialState<IServerAnswer | null>(null);
 

@@ -36,7 +36,7 @@ export function Register() {
 	const handleClick = () => {
 		dispatch(login(formData))
 			.unwrap()
-			.then((message) => {
+			.then(({ message }) => {
 				navigate('/personalInfo');
 				toast.success(message || 'Авторизация успешна!');
 			})

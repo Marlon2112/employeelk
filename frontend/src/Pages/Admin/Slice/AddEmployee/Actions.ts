@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IEmployee } from '../Models';
-import { IServerAnswer } from './Reducer';
+import { IServerAnswer } from '../../../../Common/Models';
 
 export const addEmployee = createAsyncThunk<IServerAnswer, Omit<IEmployee, 'id'>>('addEmployee', async (formData, { rejectWithValue }) => {
 	try {
@@ -22,7 +22,7 @@ export const addEmployee = createAsyncThunk<IServerAnswer, Omit<IEmployee, 'id'>
 	}
 });
 
-export const updateEmployee = createAsyncThunk('updateEmployee', async (formData: IEmployee, { rejectWithValue }) => {
+export const updateEmployee = createAsyncThunk<IServerAnswer, IEmployee>('updateEmployee', async (formData: IEmployee, { rejectWithValue }) => {
 	try {
 		const response = await fetch('/api/admin/employee', {
 			method: 'PUT',
@@ -42,7 +42,7 @@ export const updateEmployee = createAsyncThunk('updateEmployee', async (formData
 	}
 });
 
-export const deleteEmployee = createAsyncThunk('deleteEmployee', async (id: number, { rejectWithValue }) => {
+export const deleteEmployee = createAsyncThunk<IServerAnswer, number>('deleteEmployee', async (id: number, { rejectWithValue }) => {
 	try {
 		const response = await fetch(`/api/admin/employee/${id}`, {
 			method: 'DELETE',

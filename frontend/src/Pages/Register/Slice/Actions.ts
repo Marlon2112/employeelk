@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IRegister } from './Models';
+import { IServerAnswer } from '../../../Common/Models';
 
-export const login = createAsyncThunk('auth/login', async (formData: IRegister, { rejectWithValue }) => {
+export const login = createAsyncThunk<IServerAnswer, IRegister>('auth/login', async (formData: IRegister, { rejectWithValue }) => {
 	const url = '/api/login';
 
 	try {
