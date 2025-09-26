@@ -8,8 +8,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>backend</module>
-        <module>securitycommon</module>
-        <module>passwordtool</module>
     </modules>
     <packaging>pom</packaging>
 </project>
