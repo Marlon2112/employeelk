@@ -2,9 +2,9 @@ import { createReducer } from '@reduxjs/toolkit';
 import { EReduxStatus } from '../../../Common/Enums';
 import { getInitialState } from '../../../Common/Utils';
 import { login } from './Actions';
-import { IRegister } from './Models';
+import { IServerAnswer } from '../../../Common/Models';
 
-const INITIAL_SLICE_STATE = getInitialState<IRegister | null>(null);
+const INITIAL_SLICE_STATE = getInitialState<IServerAnswer | null>(null);
 
 export const loginReducer = createReducer(INITIAL_SLICE_STATE, (builder) => {
 	builder
