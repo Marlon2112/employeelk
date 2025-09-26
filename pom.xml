@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- pom.xml для многомодульного проекта. Нужен для того, чтобы ide-шка не сходила с ума при открытии проекта целиком, модули чтобы нормально подтягивались -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>employeelk</artifactId>
+    <groupId>employeeoffice</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>backend</module>
+    </modules>
+    <packaging>pom</packaging>
+</project>

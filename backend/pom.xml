@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>employeeoffice</groupId>
-	<artifactId>employeelk</artifactId>
+	<artifactId>employeelk-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>employeelk</name>
 	<description>Demo project for Spring Boot</description>
@@ -82,6 +82,10 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-jdbc</artifactId>
+        </dependency>
 	</dependencies>
 
 	<build>
