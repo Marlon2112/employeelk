@@ -2,7 +2,12 @@
 *
 
 # Include what we need
-!src
+!app/src
+!passwordtool/src
+!securitycommon/src
 !.mvn
+!app/pom.xml
+!passwordtool/pom.xml
+!securitycommon/pom.xml
 !pom.xml
 !mvnw
