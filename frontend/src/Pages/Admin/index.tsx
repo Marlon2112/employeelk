@@ -1,13 +1,13 @@
 import AddIcon from '@mui/icons-material/Add';
 import { Button } from '@mui/material';
 import * as React from 'react';
-import { Header } from '../../Common/Header';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { Header } from '../../Common/Components/Header';
 import { useAppDispatch } from '../../store';
 import { Modal } from './Components/Modal';
 import { TableEmployees } from './Components/Table';
 import { getEmployees } from './Slice/GetEmployees/Actions';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
 	display: flex;

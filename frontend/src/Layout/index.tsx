@@ -1,9 +1,9 @@
-import React from 'react';
 import Grid from '@mui/material/Grid2';
-import { SideBar } from './Sidebar';
-import { Header } from './Header';
-import { Outlet } from 'react-router-dom';
+import React from 'react';
 import styled from 'styled-components';
+import { Header } from './Header';
+import { ProtectedRoute } from './ProtectedRoute';
+import { SideBar } from './Sidebar';
 
 const OutletWrapper = styled.div`
 	padding: 2rem;
@@ -19,7 +19,7 @@ export function Layout(): React.ReactElement {
 				<Grid size={{ xs: 7, md: 9, xl: 10 }}>
 					<Header />
 					<OutletWrapper>
-						<Outlet />
+						<ProtectedRoute />
 					</OutletWrapper>
 				</Grid>
 			</Grid>

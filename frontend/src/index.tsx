@@ -8,16 +8,19 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import theme from './Theme';
+import { AuthProvider } from './Common/Providers/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
 	<React.StrictMode>
-		<Provider store={store}>
-			<ThemeProvider theme={theme}>
-				<App />
-				<Toaster />
-			</ThemeProvider>
-		</Provider>
+		<AuthProvider>
+			<Provider store={store}>
+				<ThemeProvider theme={theme}>
+					<App />
+					<Toaster />
+				</ThemeProvider>
+			</Provider>
+		</AuthProvider>
 	</React.StrictMode>
 );
 

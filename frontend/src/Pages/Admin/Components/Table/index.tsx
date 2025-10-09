@@ -11,11 +11,11 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Loader } from '../../../../Common/Loader';
+import { EmptyPage } from '../../../../Common/Components/EmptyPage';
+import { Loader } from '../../../../Common/Components/Loader';
 import { getEmployeesData, getEmployeesIsLoading } from '../../Slice/GetEmployees/Selectors';
 import { DeleteDialog } from './Components/DeleteDialog';
 import { TableHeader } from './Components/TableHeader';
-import { EmptyPage } from '../../../../Common/EmptyPage';
 
 const IconsWrapper = styled.div`
 	svg {

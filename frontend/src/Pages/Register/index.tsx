@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import { PasswordTextField } from './Components/PasswordTextField';
-import { useAppDispatch } from '../../store';
-import { LoginTextField } from './Components/LoginTextField';
-import { SubmitButton } from './Components/SubmitButton';
-import { login } from './Slice/Actions';
-import { IRegister } from './Slice/Models';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { Header } from '../../Common/Header';
+import styled from 'styled-components';
+import { Header } from '../../Common/Components/Header';
+import { useAppDispatch } from '../../store';
+import { PERSONAL_INFO_PAGE_PATH } from '../PersonalInfo/Path';
+import { LoginTextField } from './Components/LoginTextField';
+import { PasswordTextField } from './Components/PasswordTextField';
+import { SubmitButton } from './Components/SubmitButton';
+import { loginAction } from './Slice/Actions';
+import { IRegister } from './Slice/Models';
+import { useAuth } from '../../Common/Providers/useAuth';
 
 const Item = styled.div`
 	text-align: center;
@@ -32,12 +34,14 @@ export function Register() {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState<IRegister>(initialState);
+	const { login } = useAuth();
 
 	const handleClick = () => {
-		dispatch(login(formData))
+		dispatch(loginAction(formData))
 			.unwrap()
-			.then(({ message }) => {
-				navigate('/personalInfo');
+			.then(({ message, userName, token }) => {
+				login(token, userName);
+				navigate(`/${PERSONAL_INFO_PAGE_PATH}`);
 				toast.success(message || 'Авторизация успешна!');
 			})
 			.catch((error) => {

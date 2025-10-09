@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import DialogContent from '@mui/material/DialogContent';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import { Loader } from '../../../../../Common/Loader';
+import { Loader } from '../../../../../Common/Components/Loader';
 import { getEmployeeDataIsLoading } from '../../../Slice/GetEmployee/Selectors';
 import { IEmployee } from '../../../Slice/Models';
 

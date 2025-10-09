@@ -4,7 +4,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Header } from '../../../../Common/Header';
+import { Header } from '../../../../Common/Components/Header';
 import { useAppDispatch } from '../../../../store';
 import { getEmployeeById } from '../../Slice/GetEmployee/Actions';
 import { IEmployee } from '../../Slice/Models';

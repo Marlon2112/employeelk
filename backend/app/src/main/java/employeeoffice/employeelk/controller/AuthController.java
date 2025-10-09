@@ -1,6 +1,8 @@
 package employeeoffice.employeelk.controller;
 
 import employeeoffice.employeelk.dto.LoginRequest;
+import employeeoffice.employeelk.dto.LoginResponse;
+import employeeoffice.employeelk.security.TokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private TokenProvider tokenProvider;
+
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletRequest servletRequest) {
         try {
@@ -44,10 +49,16 @@ public class AuthController {
                     context
             );
 
-            return ResponseEntity.ok(Map.of("message", "Авторизация успешна!"));
+            LoginResponse response = LoginResponse.builder()
+                    .message("Авторизация успешна!")
+                    .userName(authReq.getName())
+                    .token(tokenProvider.generateToken(auth))
+                    .build();
+
+            return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Invalid credentials");
+                    .body(Map.of("error", "Ошибка авторизации"));
         }
     }
 }
