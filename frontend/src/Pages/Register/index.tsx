@@ -15,13 +15,13 @@ import { useAuth } from '../../Common/Providers/useAuth';
 const Item = styled.div`
 	text-align: center;
 	height: 300px;
-	width: 30%;
+	width: 380px;
 	margin: 8rem auto;
 	background-color: #f1f2f7;
 	border-radius: 20px;
 	display: flex;
 	flex-direction: column;
-	padding: 2rem 3rem;
+	padding: 2rem 4rem;
 	justify-content: space-between;
 `;
 

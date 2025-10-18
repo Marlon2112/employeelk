@@ -33,8 +33,10 @@ export function Modal({ isOpen, onClose }: IProps) {
 			dispatch(getEmployeeById(Number(employeeId)))
 				.unwrap()
 				.then((employeeData) => setFormData(employeeData));
+		} else {
+			setFormData(initialState);
 		}
-	}, [employeeId, dispatch]);
+	}, [employeeId, dispatch, isOpen]);
 
 	return (
 		<Dialog fullWidth maxWidth={'sm'} open={isOpen} onClose={onClose}>

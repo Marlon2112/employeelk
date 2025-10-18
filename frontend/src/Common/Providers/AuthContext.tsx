@@ -14,14 +14,12 @@ export const AuthContext = createContext<AuthInfo | undefined>(undefined);
 
 export function AuthProvider({ children }: PropsWithChildren) {
 	const [user, setUser] = useState<string | null>(null);
-	const [token, setToken] = useState<string | null>(null);
+	const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
 
 	useEffect(() => {
-		const storedToken = localStorage.getItem('token');
 		const storedUser = localStorage.getItem('user');
 
-		if (storedToken && storedUser) {
-			setToken(storedToken);
+		if (storedUser) {
 			setUser(JSON.parse(storedUser));
 		}
 	}, []);

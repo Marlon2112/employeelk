@@ -30,7 +30,7 @@ export function DeleteDialog({ setOpenDeleteDialog, openDeleteDialog }: IProps) 
 				.unwrap()
 				.then(({ message }) => {
 					toast.success(message || 'Сотрудник удален!');
-					setOpenDeleteDialog(false);
+					handleCloseDeleteDialog();
 					dispatch(getEmployees());
 				})
 				.catch((error) => {
