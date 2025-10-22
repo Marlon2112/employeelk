@@ -1,11 +1,11 @@
-import React from 'react';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import LightMode from '@mui/icons-material/LightMode';
-import Coronavirus from '@mui/icons-material/Coronavirus';
 import AdminPanel from '@mui/icons-material/AdminPanelSettings';
-import { PERSONAL_INFO_PAGE_PATH } from '../../Pages/PersonalInfo/Path';
+import LightMode from '@mui/icons-material/LightMode';
+import TrendingUp from '@mui/icons-material/TrendingUp';
+import React from 'react';
 import { ADMIN_PAGE_PATH } from '../../Pages/Admin/Path';
-import { SICK_LEAVE_PAGE_PATH } from '../../Pages/SickLeave/Path';
+import { CAREER_ROUTES_PAGE_PATH } from '../../Pages/CareerRoutes/Path';
+import { PERSONAL_INFO_PAGE_PATH } from '../../Pages/PersonalInfo/Path';
 import { VACATION_PAGE_PATH } from '../../Pages/Vacation/Path';
 
 interface IMenuItems {
@@ -29,10 +29,10 @@ export const MENU_ITEMS: IMenuItems[] = [
 		icon: <LightMode />,
 	},
 	{
-		title: 'Больничный',
-		link: SICK_LEAVE_PAGE_PATH,
+		title: 'Карьерные маршруты',
+		link: CAREER_ROUTES_PAGE_PATH,
 		id: '3',
-		icon: <Coronavirus />,
+		icon: <TrendingUp />,
 	},
 	{
 		title: 'Админ панель',
