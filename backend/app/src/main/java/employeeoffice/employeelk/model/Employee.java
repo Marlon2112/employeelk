@@ -1,13 +1,17 @@
 package employeeoffice.employeelk.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "employees")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "employees")
 public class Employee {
 
     @Id
@@ -23,4 +27,8 @@ public class Employee {
 
     // Текущая зарплата
     private Double salary;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "login_id", referencedColumnName = "id")
+    private Login login;
 }

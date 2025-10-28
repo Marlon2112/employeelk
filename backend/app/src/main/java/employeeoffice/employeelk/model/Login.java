@@ -1,7 +1,15 @@
 package employeeoffice.employeelk.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "logins")
 public class Login {
@@ -16,8 +24,11 @@ public class Login {
     @Column(nullable = false)
     private String password; // Будем хранить в зашифрованном виде
 
+    @OneToOne(mappedBy = "logins")
+    private Employee employee;
+
     // Геттеры и сеттеры
-    public Long getId() {
+   /*  public Long getId() {
         return id;
     }
     public void setId(Long id) {
@@ -36,5 +47,5 @@ public class Login {
     }
     public void setPassword(String password) {
         this.password = password;
-    }
+    } */
 }
