@@ -24,9 +24,13 @@ public class Login {
     @Column(nullable = false)
     private String password; // Будем хранить в зашифрованном виде
 
-    @OneToOne(mappedBy = "logins")
+    @OneToOne(mappedBy = "login")
     private Employee employee;
 
+    @Override
+    public String toString(){
+        return String.format("Пользователь с логином: %s, полное имя: %s", this.login, this.employee.getFullName());
+    }
     // Геттеры и сеттеры
    /*  public Long getId() {
         return id;

@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -19,10 +19,11 @@ public class Employee {
     private Long id;
 
     // ФИО сотрудника
-    @Column(nullable = false)
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
     // Дополнительные поля, например, email, должность и т.д.
+    @Column(name = "email")
     private String email;
 
     // Текущая зарплата
@@ -31,4 +32,9 @@ public class Employee {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "login_id", referencedColumnName = "id")
     private Login login;
+    
+    @Override
+    public String toString(){
+        return String.format("Сотрудник с именен: %s, имеет логин: %s", this.fullName, this.login.getLogin());
+    }
 }

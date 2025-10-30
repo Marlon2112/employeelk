@@ -13,7 +13,6 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.junit.jupiter.api.AfterAll;
 
 import java.util.Optional;
 
@@ -24,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class EmployeeLoginIntegrationTest {
 
+    @SuppressWarnings("resource")
     @Container
     static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine")
             .withDatabaseName("employeelk_test")
@@ -71,7 +71,7 @@ class EmployeeLoginIntegrationTest {
     @Test
     void testEmployeeLoginRelationship() {
         // Test finding employee by login
-        Optional<Employee> foundEmployee = employeeRepository.findByLogin(testLogin);
+        Optional<Employee> foundEmployee = employeeRepository.findByLoginLogin(testLogin.getLogin());
         assertThat(foundEmployee).isPresent();
         assertThat(foundEmployee.get().getFullName()).isEqualTo("Иван Иванов");
         assertThat(foundEmployee.get().getLogin().getLogin()).isEqualTo("testuser");
@@ -90,11 +90,16 @@ class EmployeeLoginIntegrationTest {
         Optional<Login> foundLoginByEmployeeId = loginRepository.findByEmployeeId(testEmployee.getId());
         assertThat(foundLoginByEmployeeId).isPresent();
         assertThat(foundLoginByEmployeeId.get().getId()).isEqualTo(testLogin.getId());
-
-        // Test finding login by login string
+        
+        //Test finding login object by login
         Optional<Login> foundLoginByString = loginRepository.findByLogin("testuser");
         assertThat(foundLoginByString).isPresent();
         assertThat(foundLoginByString.get().getId()).isEqualTo(testLogin.getId());
+
+        // Test finding login by employee email
+         Optional<Login> foundLoginByEmail = loginRepository.findByEmployeeEmail(testEmployee.getEmail());
+        assertThat(foundLoginByEmail).isPresent();
+        assertThat(foundLoginByEmail.get().getId()).isEqualTo(testLogin.getId());
     }
 
     @Test
