@@ -8,6 +8,8 @@ import lombok.Setter;
 public class EmployeeRequest {
     private String fullName;
     private String email;
+    private String login;
+    private String password;
     // Текущая зарплата
     private Double salary;
 }

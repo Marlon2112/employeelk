@@ -11,6 +11,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     // Дополнительные методы поиска, например, по email или ФИО
     Employee findByFullName(String fullName);
 
+    Optional<Employee> findByLoginId(Long loginId);
+
+    Optional<Employee> findByLoginLogin(String login);
+
     Optional<Employee> findByEmail(String email);
 
     List<Employee> findAllByOrderByFullNameAsc();

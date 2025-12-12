@@ -1,10 +1,14 @@
 package employeeoffice.employeelk.controller;
 
 import employeeoffice.employeelk.dto.EmployeeRequest;
+import employeeoffice.employeelk.dto.EmployeeResponse;
+import employeeoffice.employeelk.dto.LoginResponse;
 import employeeoffice.employeelk.model.Employee;
+import employeeoffice.employeelk.model.Login;
 import employeeoffice.employeelk.model.Salary;
 import employeeoffice.employeelk.model.WorkingTime;
 import employeeoffice.employeelk.repository.EmployeeRepository;
+import employeeoffice.employeelk.repository.LoginRepository;
 import employeeoffice.employeelk.repository.SalaryRepository;
 import employeeoffice.employeelk.repository.WorkingTimeRepository;
 import employeeoffice.employeelk.service.LoginService;
@@ -19,6 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/admin")
@@ -33,16 +40,27 @@ public class AdminController {
     private EmployeeRepository employeeRepository;
 
     @Autowired
+    private LoginRepository loginRepository;
+
+    @Autowired
     private SalaryRepository salaryRepository;
 
     @Autowired
     private WorkingTimeRepository workingTimeRepository;
 
+
     // Получение списка сотрудников
     @GetMapping("/employees")
     public ResponseEntity<?> getAllEmployees() {
         try {
-            List<Employee> employees = employeeRepository.findAllByOrderByFullNameAsc();
+            List<EmployeeResponse> employees = employeeRepository.findAllByOrderByFullNameAsc()
+                .stream().map(e -> EmployeeResponse
+                                        .builder()
+                                        .email(e.getEmail())
+                                        .fullName(e.getFullName())
+                                        .login(e.getLogin().getLogin())
+                                        .salary(e.getSalary().toString())
+                                        .build()).toList();
             logger.info("Данные сотрудников: {}", employees);
             return new ResponseEntity<>(employees, HttpStatus.OK);
         } catch (Exception e) {
@@ -58,13 +76,96 @@ public class AdminController {
         try {
             Employee employee = employeeRepository.findById(id);
             logger.info("Данные сотрудника с id {}: {}", id, employee);
-            return new ResponseEntity<>(employee, HttpStatus.OK);
+            return new ResponseEntity<>(EmployeeResponse.builder()
+                .email(employee.getEmail())
+                .login(employee.getLogin().getLogin())
+                .salary(employee.getSalary().toString())
+                .fullName(employee.getFullName()).build()
+            , HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Ошибка получения сотрудника: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Внутренняя ошибка сервера"));
         }
     }
+    
+    @GetMapping("/employee-login/byloginid/{id}")
+    // Тестовый rest метод для проверки связи employee-login 
+    // Возвращает сущность Employee по id логина
+    public ResponseEntity<?> getEmplyeeByLoginId(@PathVariable Long id) {
+        logger.info("Определяем сотрубника по loginId");
+        Optional<Employee> foundEmployee = employeeRepository.findByLoginId(id);
+        if(foundEmployee.isPresent()){
+            return new ResponseEntity<>(EmployeeResponse.builder()
+                                        .email(foundEmployee.get().getEmail())
+                                        .fullName(foundEmployee.get().getFullName())
+                                        .login(foundEmployee.get().getLogin().getLogin())
+                                        .salary(foundEmployee.get().getSalary().toString()).build()
+                                        , HttpStatus.OK);
+        } else {
+            return ResponseEntity.badRequest().body(
+                Map.of("error", String.format("Сотрудник с id = %d не найден!",  id))
+            );
+        }
+        
+    }
+    
+    @GetMapping("/employee-login/bylogin/{login}")
+    // Тестовый rest метод для проверки связи employee-login 
+    // Возвращает сущность Employee по логину
+    public ResponseEntity<?> getEmplyeeByLoginLogin(@PathVariable String login) {
+        logger.info("Определяем сотрубника по login");
+        Optional<Employee> foundEmployee = employeeRepository.findByLoginLogin(login);
+        if(foundEmployee.isPresent()){
+            return new ResponseEntity<>(EmployeeResponse.builder()
+                                        .email(foundEmployee.get().getEmail())
+                                        .fullName(foundEmployee.get().getFullName())
+                                        .login(foundEmployee.get().getLogin().getLogin())
+                                        .salary(foundEmployee.get().getSalary().toString()).build(), HttpStatus.OK);
+        } else {
+            return ResponseEntity.badRequest().body(
+                Map.of("error", String.format("Сотрудник с login = %s не найден!",  login))
+            );
+
+        }
+    }
+    
+    @GetMapping("/employee-login/byemployeeid/{id}")
+    // Тестовый rest метод для проверки связи employee-login 
+    // Возвращает сущность Login по id сотрудника
+    public ResponseEntity<?> getLoginByEmployeeId(@RequestParam long id) {
+        Optional<Login> foundLogin = loginRepository.findByEmployeeId(id);
+        if(foundLogin.isPresent()){
+            return new ResponseEntity<>(LoginResponse.builder()
+                                        .message("Пользователь: " + foundLogin.get().getEmployee().getFullName())
+                                        .userName(foundLogin.get().getLogin())
+                                        .token(foundLogin.get().getPassword()).build()
+                , HttpStatus.OK);
+        } else {
+            return ResponseEntity.badRequest().body(
+                Map.of("error", String.format("Логин сотрудника id = %d не найден!",  id))
+            );
+        }
+    }
+    
+    @GetMapping("/employee-login/byemployeeemail/{email}")
+    // Тестовый rest метод для проверки связи employee-login 
+    // Возвращает сущность Login по Email сотрудника
+    public ResponseEntity<?> getLoginByEmployeeEmail(@RequestParam String email) {
+        Optional<Login> foundLogin = loginRepository.findByEmployeeEmail(email);
+        if(foundLogin.isPresent()){
+            return new ResponseEntity<>(LoginResponse.builder()
+                                        .message("Пользователь: " + foundLogin.get().getEmployee().getFullName())
+                                        .userName(foundLogin.get().getLogin())
+                                        .token(foundLogin.get().getPassword()).build()
+                , HttpStatus.OK);
+        } else {
+            return ResponseEntity.badRequest().body(
+                Map.of("error", String.format("Логин сотрудника с email = %s не найден!",  email))
+            );
+        }
+    }
+
 
     // Добавление нового сотрудника
     @PostMapping("/employee")

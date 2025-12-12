@@ -1,6 +1,7 @@
 package employeeoffice.employeelk.service;
 
 import employeeoffice.employeelk.dto.EmployeeRequest;
+import employeeoffice.employeelk.dto.LoginRequest;
 import employeeoffice.employeelk.model.Employee;
 import employeeoffice.employeelk.model.Login;
 import employeeoffice.employeelk.repository.EmployeeRepository;
@@ -27,16 +28,21 @@ public class LoginService {
     private PasswordEncoder passwordEncoder;
 
     @Transactional
-    public boolean registerUser(String login, String rawPassword) {
-        if (loginRepository.findByLogin(login).isPresent()) {
-            logger.info("Пользователь с логином '{}' уже существует", login);
+    public boolean registerUser(LoginRequest loginRequest) {
+        logger.info("Регестрируем Логин");
+        if (loginRepository.findByLogin(loginRequest.getLogin()).isPresent()) {
+            logger.info("Пользователь с логином '{}' уже существует", loginRequest);
             return false;
         }
 
+        logger.info("Логин request{}", loginRequest);
+        logger.info("Логин request поле ЛОГИН: {}", loginRequest.getLogin());
+        logger.info("Логин request поле ПАССФОРД: {}", loginRequest.getPassword());
+        
         Login newUser = new Login();
-        newUser.setLogin(login);
-        newUser.setPassword(passwordEncoder.encode(rawPassword));
-        logger.info("Сохраняю пользователя: {}", login);
+        newUser.setLogin(loginRequest.getLogin());
+        newUser.setPassword(passwordEncoder.encode(loginRequest.getPassword()));
+        logger.info("Сохраняю пользователя: {}", loginRequest.getLogin());
         loginRepository.save(newUser);
         logger.info("Сохранил пользователя, id: {}", newUser.getId());
         Login saved = loginRepository.save(newUser);
@@ -50,6 +56,9 @@ public class LoginService {
         String email = employeeRequest.getEmail();
         String fullName = employeeRequest.getFullName();
         Double salary = employeeRequest.getSalary();
+        
+        String login = employeeRequest.getLogin();
+        String password = employeeRequest.getPassword();
 
         if (fullName == null || fullName.trim().isEmpty()){
             logger.info("Имя сотрудника не может быть пустым");
@@ -66,16 +75,23 @@ public class LoginService {
             logger.info("Сотрудник с email:  {}, существует", email);
             return false;
         }
+        
+        Login newLogin = new Login();
+        newLogin.setLogin(login);
+        newLogin.setPassword(passwordEncoder.encode(password));
+        loginRepository.save(newLogin);
+        
 
         Employee newEmployee = new Employee();
+        newLogin.setEmployee(newEmployee);
         newEmployee.setEmail(email);
         newEmployee.setFullName(fullName);
+        newEmployee.setLogin(newLogin);
         newEmployee.setSalary(salary);
         logger.info("Сохраняю сотрудника:  {}, e-mail:  {}", fullName, email);
         employeeRepository.save(newEmployee);
         logger.info("Новый сотрудник добавлен в базу данных, id: {}", newEmployee.getId());
         return true;
-
 
     }
 }

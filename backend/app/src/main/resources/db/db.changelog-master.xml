@@ -35,6 +35,7 @@
                                  referencedColumnNames="id"
                                  constraintName="fk_salary_employee"/>
     </changeSet>
+    
 
     <!-- Таблица рабочего времени -->
     <changeSet id="3" author="author">
@@ -147,5 +148,20 @@
             SELECT 'root', '${root_user_password}'
             WHERE NOT EXISTS (SELECT 1 FROM logins WHERE login = 'root');
         </sql>
+    </changeSet>
+        
+    <!-- Связь один-к-одному: employees.login_id -> logins.id-->
+    <changeSet id="8" author="Alexandr Masliakov">
+        <addColumn tableName="employees">
+            <column name="login_id" type="BIGINT"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="employees"
+                                 baseColumnNames="login_id"
+                                 referencedTableName="logins"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_employee_login"/>
+        <addUniqueConstraint tableName="employees"
+                             columnNames="login_id"
+                             constraintName="uk_employee_login_id"/>
     </changeSet>
 </databaseChangeLog>
